@@ -1,3 +1,3 @@
 module.exports = [
-	[{compilerPath: /system_true/}, /System\.import\(\) is deprecated/]
+	[/system_undef/, /System\.import\(\) is deprecated/]
 ];

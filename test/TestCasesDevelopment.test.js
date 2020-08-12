@@ -4,6 +4,6 @@ describe("TestCases", () => {
 	describeCases({
 		name: "development",
 		mode: "development",
-		devtool: false
+		devtool: "none"
 	});
 });

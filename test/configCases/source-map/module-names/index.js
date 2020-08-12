@@ -6,19 +6,15 @@ function getSourceMap(filename) {
 }
 
 it("should include test.js in SourceMap", function() {
-	var allSources = new Set();
 	var map = getSourceMap("bundle0.js");
-	for(var source of map.sources) allSources.add(source);
+	expect(map.sources).toContain("module");
+	expect(map.sources).toContain("fallback");
+	expect(map.sources).toContain("fallback**");
 	map = getSourceMap("chunk-a.js");
-	for(var source of map.sources) allSources.add(source);
+	expect(map.sources).toContain("fallback*");
 	map = getSourceMap("chunk-b.js");
-	for(var source of map.sources) allSources.add(source);
-	expect(allSources).toContain("module");
-	allSources.delete("module");
-	expect(allSources).toContain("fallback");
-	for(const source of allSources) {
-		expect(source).toMatch(/^fallback\**$/);
-	}
+	expect(map.sources).toContain("fallback*");
+	expect(map.sources).toContain("fallback***");
 });
 
 require.ensure(["./test.js"], function(require) {}, "chunk-a");

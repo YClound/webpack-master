@@ -128,9 +128,6 @@
 ## Side Effects
 [side-effects](side-effects)
 
-## TypeScript
-[TypeScript](typescript)
-
 ## Source Map
 [source-map](source-map)
 

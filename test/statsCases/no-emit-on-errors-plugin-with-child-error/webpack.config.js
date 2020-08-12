@@ -1,9 +1,8 @@
 "use strict";
 
-var NoEmitOnErrorsPlugin = require("../../../").NoEmitOnErrorsPlugin;
+var NoEmitOnErrorsPlugin = require("../../../lib/NoEmitOnErrorsPlugin");
 var TestChildCompilationFailurePlugin = require("./TestChildCompilationFailurePlugin");
 
-/** @type {import("../../../").Configuration} */
 module.exports = {
 	entry: "./index",
 	output: {

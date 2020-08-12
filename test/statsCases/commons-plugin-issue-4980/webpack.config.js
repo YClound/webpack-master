@@ -1,10 +1,9 @@
 // should generate vendor chunk with the same chunkhash for both entries
-/** @type {import("../../../").Configuration[]} */
 module.exports = [
 	{
 		mode: "production",
 		output: {
-			filename: "[name].[chunkhash]-1.js"
+			chunkFilename: "[name].[chunkhash].js"
 		},
 		entry: {
 			app: "./entry-1.js"
@@ -19,13 +18,14 @@ module.exports = [
 						test: /constants/
 					}
 				}
-			}
+			},
+			namedModules: true
 		}
 	},
 	{
 		mode: "production",
 		output: {
-			filename: "[name].[chunkhash]-2.js"
+			chunkFilename: "[name].[chunkhash].js"
 		},
 		entry: {
 			app: "./entry-2.js"
@@ -40,7 +40,8 @@ module.exports = [
 						test: /constants/
 					}
 				}
-			}
+			},
+			namedModules: true
 		}
 	}
 ];

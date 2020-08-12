@@ -4,18 +4,14 @@ var join = require("path").join;
 
 function read(path) {
 	return JSON.stringify(
-		fs.readFileSync(join(__dirname, path), "utf8").replace(/\r\n?/g, "\n")
+		fs.readFileSync(join(__dirname, path), "utf8").replace(/\r\n/g, "\n")
 	);
 }
 
-/** @type {import("../../../").Configuration[]} */
 module.exports = [
 	{
 		mode: "production",
 		entry: "./index",
-		output: {
-			filename: "123.js"
-		},
 		plugins: [
 			new webpack.DefinePlugin({
 				VALUE: "123"
@@ -26,9 +22,6 @@ module.exports = [
 	{
 		mode: "production",
 		entry: "./index",
-		output: {
-			filename: "321.js"
-		},
 		plugins: [
 			new webpack.DefinePlugin({
 				VALUE: "321"
@@ -39,9 +32,6 @@ module.exports = [
 	{
 		mode: "production",
 		entry: "./index",
-		output: {
-			filename: "both.js"
-		},
 		plugins: [
 			new webpack.DefinePlugin({
 				VALUE: webpack.DefinePlugin.runtimeValue(() => read("123.txt"), [

@@ -1,1 +1,1 @@
-module.exports = /** @type {string[]} */ ([]);
+module.exports = [];

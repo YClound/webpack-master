@@ -1,9 +1,6 @@
-/**
- * @this {import("../../../../").Compiler} the compiler
- */
-var testPlugin = function () {
+var testPlugin = function() {
 	this.hooks.compilation.tap("TestPlugin", compilation => {
-		compilation.hooks.finishModules.tapAsync("TestPlugin", function (
+		compilation.hooks.finishModules.tapAsync("TestPlugin", function(
 			_modules,
 			callback
 		) {
@@ -12,7 +9,6 @@ var testPlugin = function () {
 	});
 };
 
-/** @type {import("../../../../").Configuration} */
 module.exports = {
 	plugins: [testPlugin]
 };

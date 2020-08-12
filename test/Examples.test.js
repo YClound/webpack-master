@@ -1,9 +1,9 @@
 "use strict";
 
-/* describe it */
+/* globals describe it */
 const path = require("path");
-const fs = require("graceful-fs");
-const webpack = require("..");
+const fs = require("fs");
+const webpack = require("../");
 
 describe("Examples", () => {
 	const basePath = path.join(__dirname, "..", "examples");
@@ -18,7 +18,7 @@ describe("Examples", () => {
 		}
 		it(
 			"should compile " + relativePath,
-			function (done) {
+			function(done) {
 				let options = {};
 				let webpackConfigPath = path.join(examplePath, "webpack.config.js");
 				webpackConfigPath =
@@ -26,7 +26,6 @@ describe("Examples", () => {
 					webpackConfigPath.substr(1);
 				if (fs.existsSync(webpackConfigPath))
 					options = require(webpackConfigPath);
-				if (typeof options === "function") options = options();
 				if (Array.isArray(options)) options.forEach(processOptions);
 				else processOptions(options);
 
@@ -38,20 +37,21 @@ describe("Examples", () => {
 					options.output.publicPath = "dist/";
 					if (!options.entry) options.entry = "./example.js";
 					if (!options.plugins) options.plugins = [];
+					// To support deprecated loaders
+					// TODO remove in webpack 5
+					options.plugins.push(
+						new webpack.LoaderOptionsPlugin({
+							options: {}
+						})
+					);
 				}
 				webpack(options, (err, stats) => {
 					if (err) return done(err);
-					if (stats.hasErrors()) {
-						return done(
-							new Error(
-								stats.toString({
-									all: false,
-									errors: true,
-									errorDetails: true,
-									errorStacks: true
-								})
-							)
-						);
+					stats = stats.toJson({
+						errorDetails: true
+					});
+					if (stats.errors.length > 0) {
+						return done(new Error(stats.errors[0]));
 					}
 					done();
 				});

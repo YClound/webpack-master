@@ -1,4 +1,3 @@
-/** @type {import("../../../../").Configuration} */
 module.exports = {
 	name: "compiler-name",
 	module: {

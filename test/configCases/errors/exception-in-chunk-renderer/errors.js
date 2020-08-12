@@ -1,1 +1,4 @@
-module.exports = [[/Test exception/]];
+module.exports = [
+	[/Test exception/],
+	[/Test exception/]
+];

@@ -1,7 +1,6 @@
-/** @typedef {import("../../../../").Compilation} Compilation */
-/** @typedef {import("../../../../").Module} Module */
+/** @typedef {import("../../../../lib/Compilation")} Compilation */
+/** @typedef {import("../../../../lib/Module")} Module */
 
-/** @type {import("../../../../").Configuration} */
 module.exports = {
 	entry: {
 		entry1: "./entry1",
@@ -10,36 +9,23 @@ module.exports = {
 	output: {
 		filename: "[name].js"
 	},
-	optimization: {
-		concatenateModules: false
-	},
 	plugins: [
-		function () {
+		function() {
 			/**
 			 * @param {Compilation} compilation compilation
 			 * @returns {void}
 			 */
 			const handler = compilation => {
-				const moduleGraph = compilation.moduleGraph;
 				compilation.hooks.afterSeal.tap("testcase", () => {
 					const data = {};
 					for (const [name, group] of compilation.namedChunkGroups) {
 						/** @type {Map<Module, number>} */
 						const modules = new Map();
-						/** @type {Map<Module, number>} */
 						const modules2 = new Map();
 						for (const chunk of group.chunks) {
-							for (const module of compilation.chunkGraph.getChunkModulesIterable(
-								chunk
-							)) {
-								const preOrder = group.getModulePreOrderIndex(module);
-								if (typeof preOrder === "number") {
-									modules.set(module, preOrder);
-								}
-								const postOrder = group.getModulePostOrderIndex(module);
-								if (typeof postOrder === "number") {
-									modules2.set(module, postOrder);
-								}
+							for (const module of chunk.modulesIterable) {
+								modules.set(module, group.getModuleIndex(module));
+								modules2.set(module, group.getModuleIndex2(module));
 							}
 						}
 						const sortedModules = Array.from(modules).sort((a, b) => {
@@ -79,40 +65,30 @@ module.exports = {
 						asyncIndex: "0: ./async.js",
 						asyncIndex2: "0: ./async.js"
 					});
-					const indices = Array.from(compilation.modules)
+					const indicies = compilation.modules
+						.slice()
+						.sort((a, b) => a.index - b.index)
 						.map(
 							m =>
-								/** @type {[number, Module]} */ ([
-									moduleGraph.getPreOrderIndex(m),
-									m
-								])
-						)
-						.filter(p => typeof p[0] === "number")
-						.sort((a, b) => a[0] - b[0])
-						.map(
-							([i, m]) =>
-								`${i}: ${m.readableIdentifier(compilation.requestShortener)}`
+								`${m.index}: ${m.readableIdentifier(
+									compilation.requestShortener
+								)}`
 						)
 						.join(", ");
-					const indices2 = Array.from(compilation.modules)
+					const indicies2 = compilation.modules
+						.slice()
+						.sort((a, b) => a.index2 - b.index2)
 						.map(
 							m =>
-								/** @type {[number, Module]} */ ([
-									moduleGraph.getPostOrderIndex(m),
-									m
-								])
-						)
-						.filter(p => typeof p[0] === "number")
-						.sort((a, b) => a[0] - b[0])
-						.map(
-							([i, m]) =>
-								`${i}: ${m.readableIdentifier(compilation.requestShortener)}`
+								`${m.index2}: ${m.readableIdentifier(
+									compilation.requestShortener
+								)}`
 						)
 						.join(", ");
-					expect(indices).toEqual(
+					expect(indicies).toEqual(
 						"0: ./entry1.js, 1: ./a.js, 2: ./shared.js, 3: ./b.js, 4: ./c.js, 5: ./entry2.js, 6: ./async.js"
 					);
-					expect(indices2).toEqual(
+					expect(indicies2).toEqual(
 						"0: ./shared.js, 1: ./a.js, 2: ./b.js, 3: ./c.js, 4: ./entry1.js, 5: ./entry2.js, 6: ./async.js"
 					);
 				});

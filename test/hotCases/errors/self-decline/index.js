@@ -4,8 +4,8 @@ it("should abort when module is declined by itself", (done) => {
 	expect(a).toBe(1);
 	NEXT(require("../../update")((err) => {
 		try {
-			expect(err.message).toMatch(/Aborted because of self decline: \.\/a\.js/);
-			expect(err.message).toMatch(/Update propagation: \.\/c\.js -> \.\/b\.js -> \.\/a\.js/);
+			expect(/Aborted because of self decline: \.\/a\.js/.test(err.message)).toBe(true);
+			expect(/Update propagation: \.\/c\.js -> \.\/b\.js -> \.\/a\.js/.test(err.message)).toBe(true);
 			done();
 		} catch(e) {
 			done(e);

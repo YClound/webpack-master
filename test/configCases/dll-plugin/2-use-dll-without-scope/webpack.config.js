@@ -1,7 +1,6 @@
 var path = require("path");
 var webpack = require("../../../../");
 
-/** @type {import("../../../../").Configuration} */
 module.exports = {
 	module: {
 		rules: [
@@ -18,9 +17,6 @@ module.exports = {
 			}
 		]
 	},
-	optimization: {
-		moduleIds: "named"
-	},
 	resolve: {
 		extensions: [".js", ".jsx"]
 	},
@@ -30,6 +26,7 @@ module.exports = {
 			name: "../0-create-dll/dll.js",
 			context: path.resolve(__dirname, "../0-create-dll"),
 			sourceType: "commonjs2"
-		})
+		}),
+		new webpack.NamedModulesPlugin()
 	]
 };

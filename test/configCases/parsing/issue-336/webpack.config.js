@@ -1,5 +1,4 @@
-var ProvidePlugin = require("../../../../").ProvidePlugin;
-/** @type {import("../../../../").Configuration} */
+var ProvidePlugin = require("../../../../lib/ProvidePlugin");
 module.exports = {
 	plugins: [
 		new ProvidePlugin({

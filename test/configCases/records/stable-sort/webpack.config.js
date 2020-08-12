@@ -1,15 +1,17 @@
 var path = require("path");
 
-/** @type {function(any, any): import("../../../../").Configuration} */
-module.exports = (env, { testPath }) => ({
+module.exports = {
 	mode: "development",
 	entry: "./test",
-	recordsOutputPath: path.resolve(testPath, "records.json"),
+	recordsOutputPath: path.resolve(
+		__dirname,
+		"../../../js/config/records/stable-sort/records.json"
+	),
 	optimization: {
-		chunkIds: "size"
+		namedChunks: false
 	},
 	target: "node",
 	node: {
 		__dirname: false
 	}
-});
+};

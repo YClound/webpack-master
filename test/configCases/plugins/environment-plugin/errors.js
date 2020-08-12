@@ -7,10 +7,7 @@ const modules = [{
 	variables: ['bbb', 'ccc']
 }, {
 	name: 'ddd',
-	variables: [],
-	allowedErrors: [
-		[{compilerPath: /ddd/}, /DDD environment variable is undefined./]
-	]
+	variables: []
 }, {
 	name: 'eeefff',
 	variables: ['eee', 'fff']
@@ -29,15 +26,11 @@ modules.forEach(module => {
 		if (module.variables.indexOf(variable) === -1) {
 			// the module doesn't include the env variable, an error is expected when requiring the variable
 			regex.push([
-				{compilerPath: new RegExp(`${module.name}`)},
+				new RegExp(`(${module.name})`),
 				new RegExp(`Can't resolve '${variable}'`),
 			]);
 		}
 	});
-	
-	if (module.allowedErrors) {
-		regex.push(...module.allowedErrors)
-	}
 });
 
 module.exports = regex;

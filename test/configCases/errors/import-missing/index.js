@@ -1,20 +1,16 @@
-var never = false;
-
 it("should not crash on missing requires", function() {
-	if (never) {
-		require("./a");
-		require("./b");
-		require("./c");
-		require("./d");
-		require("./e");
-		require("./f");
-		require("./h");
-		require("./i");
-		require("./j");
-		require("./k");
-		require("./l");
-		require("./m");
-		require("./n");
-		require("./o");
-	}
+	require.include("./a");
+	require.include("./b");
+	require.include("./c");
+	require.include("./d");
+	require.include("./e");
+	require.include("./f");
+	require.include("./h");
+	require.include("./i");
+	require.include("./j");
+	require.include("./k");
+	require.include("./l");
+	require.include("./m");
+	require.include("./n");
+	require.include("./o");
 });

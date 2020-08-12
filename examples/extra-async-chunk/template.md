@@ -1,4 +1,4 @@
-This example shows the automatically created async commons chunks.
+This example shows automatically created async commons chunks.
 
 The example entry references two chunks:
 
@@ -16,7 +16,7 @@ The example entry references two chunks:
 
 These chunks share modules `a` and `b`. The optimization extract these into chunk Z:
 
-Note: The optimization compares the size of chunk Z to some minimum value, but this is disabled from this example. In practice, there is no configuration needed for this.
+Note: Actually the optimization compare size of chunk Z to some minimum value, but this is disabled from this example. In practice there is no configuration needed for this.
 
 - entry chunk
   - async require -> chunk X & Z
@@ -43,22 +43,22 @@ _{{example.js}}_
 _{{dist/output.js}}_
 ```
 
-# dist/394.output.js
+# dist/0.output.js
 
 ```javascript
-_{{dist/394.output.js}}_
+_{{dist/0.output.js}}_
 ```
 
-# dist/460.output.js
+# dist/2.output.js
 
 ```javascript
-_{{dist/460.output.js}}_
+_{{dist/2.output.js}}_
 ```
 
-# dist/767.output.js
+# dist/3.output.js
 
 ```javascript
-_{{dist/767.output.js}}_
+_{{dist/3.output.js}}_
 ```
 
 # Info

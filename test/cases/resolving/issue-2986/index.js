@@ -1,4 +1,4 @@
-if (Math.random() < 0) require("any!");
-if (Math.random() < 0) require("other!");
+require.include("any!");
+require.include("other!");
 
-it("should have correct errors", function() {});
+it("should have correct errors", function() {})

@@ -6,7 +6,7 @@ module.exports = (stdio, tty) => {
 	const write = stdio.write;
 	const isTTY = stdio.isTTY;
 
-	stdio.write = function (str) {
+	stdio.write = function(str) {
 		logs.push(str);
 	};
 	if (tty !== undefined) stdio.isTTY = tty;
@@ -24,10 +24,7 @@ module.exports = (stdio, tty) => {
 		reset: () => (logs = []),
 
 		toString: () => {
-			return stripAnsi(logs.join("")).replace(
-				/\([^)]+\) (\[[^\]]+\]\s*)?DeprecationWarning.+(\n\(Use .node.+\))?(\n(\s|BREAKING CHANGE).*)*(\n\s+at .*)*\n?/g,
-				""
-			);
+			return logs.map(v => stripAnsi(v)).join("");
 		},
 
 		toStringRaw: () => {

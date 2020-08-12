@@ -1,5 +1,4 @@
 const TerserPlugin = require("terser-webpack-plugin");
-/** @type {import("../../../").Configuration} */
 module.exports = {
 	mode: "production",
 	entry: "./index",
@@ -22,7 +21,7 @@ module.exports = {
 					},
 					warnings: true
 				},
-				warningsFilter(message, file, filename) {
+				warningsFilter(message, filename) {
 					return /a\.js$/.test(filename);
 				}
 			})

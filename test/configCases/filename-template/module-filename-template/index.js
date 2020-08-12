@@ -5,4 +5,5 @@ it("should include test.js in SourceMap", function() {
 	expect(map.sources).toContain("dummy:///./test.js");
 });
 
-if (Math.random() < 0) require("./test.js");
+require.include("./test.js");
+

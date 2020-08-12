@@ -5,7 +5,5 @@ it("should create a vendor file", function() {
 		throw new Error("vendor.js file was not created");
 });
 
-it("should be able to load the vendor module", function() {
-	require("test");
-});
+require.include("test");
 

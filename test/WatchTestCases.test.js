@@ -1,15 +1,17 @@
+/* global beforeAll expect */
 "use strict";
 
 const path = require("path");
-const fs = require("graceful-fs");
+const fs = require("fs");
 const vm = require("vm");
+const mkdirp = require("mkdirp");
 const rimraf = require("rimraf");
 const checkArrayExpectation = require("./checkArrayExpectation");
 const createLazyTestEnv = require("./helpers/createLazyTestEnv");
 const { remove } = require("./helpers/remove");
-const prepareOptions = require("./helpers/prepareOptions");
 
-const webpack = require("..");
+const Stats = require("../lib/Stats");
+const webpack = require("../lib/webpack");
 
 function copyDiff(src, dest, initial) {
 	if (!fs.existsSync(dest)) fs.mkdirSync(dest);
@@ -24,8 +26,6 @@ function copyDiff(src, dest, initial) {
 			var content = fs.readFileSync(srcFile);
 			if (/^DELETE\s*$/.test(content.toString("utf-8"))) {
 				fs.unlinkSync(destFile);
-			} else if (/^DELETE_DIRECTORY\s*$/.test(content.toString("utf-8"))) {
-				rimraf.sync(destFile);
 			} else {
 				fs.writeFileSync(destFile, content);
 				if (initial) {
@@ -115,12 +115,7 @@ describe("WatchTestCases", () => {
 
 							let options = {};
 							const configPath = path.join(testDirectory, "webpack.config.js");
-							if (fs.existsSync(configPath)) {
-								options = prepareOptions(require(configPath), {
-									testPath: outputDirectory,
-									srcPath: tempDirectory
-								});
-							}
+							if (fs.existsSync(configPath)) options = require(configPath);
 							const applyConfig = options => {
 								if (!options.mode) options.mode = "development";
 								if (!options.context) options.context = tempDirectory;
@@ -188,11 +183,9 @@ describe("WatchTestCases", () => {
 										if (waitMode) return;
 										run.done = true;
 										if (err) return compilationFinished(err);
-										const statOptions = {
-											preset: "verbose",
-											colors: false
-										};
-										fs.mkdirSync(outputDirectory, { recursive: true });
+										const statOptions = Stats.presetToOptions("verbose");
+										statOptions.colors = false;
+										mkdirp.sync(outputDirectory);
 										fs.writeFileSync(
 											path.join(outputDirectory, "stats.txt"),
 											stats.toString(statOptions),

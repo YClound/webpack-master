@@ -11,7 +11,6 @@ class ThrowsExceptionInRender {
 	}
 }
 
-/** @type {import("../../../../").Configuration} */
 module.exports = {
 	plugins: [new ThrowsExceptionInRender()]
 };

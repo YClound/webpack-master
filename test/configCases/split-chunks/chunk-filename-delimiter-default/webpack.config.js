@@ -1,6 +1,4 @@
-/** @type {import("../../../../").Configuration} */
 module.exports = {
-	mode: "development",
 	entry: {
 		main: "./index"
 	},
@@ -15,14 +13,7 @@ module.exports = {
 	},
 	optimization: {
 		splitChunks: {
-			cacheGroups: {
-				async: {
-					chunks: "async",
-					reuseExistingChunk: true,
-					minSize: 1,
-					maxSize: 1
-				}
-			}
+			minSize: 1
 		}
 	}
 };

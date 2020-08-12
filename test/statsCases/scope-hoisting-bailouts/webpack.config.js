@@ -1,4 +1,3 @@
-/** @type {import("../../../").Configuration} */
 module.exports = {
 	mode: "production",
 	entry: {
@@ -12,7 +11,6 @@ module.exports = {
 	externals: ["external"],
 	stats: {
 		assets: false,
-		orphanModules: true,
 		optimizationBailout: true
 	}
 };

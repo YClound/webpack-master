@@ -1,7 +1,6 @@
 var path = require("path");
 var webpack = require("../../../../");
 
-/** @type {import("../../../../").Configuration} */
 module.exports = {
 	module: {
 		rules: [

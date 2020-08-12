@@ -15,6 +15,16 @@ describe("formatLocation", () => {
 			result: ""
 		},
 		{
+			name: "string",
+			loc: "str",
+			result: "str"
+		},
+		{
+			name: "number",
+			loc: 12,
+			result: "12"
+		},
+		{
 			name: "line-column",
 			loc: {
 				start: {
@@ -53,16 +63,32 @@ describe("formatLocation", () => {
 			result: "5:6"
 		},
 		{
+			name: "start-end string",
+			loc: {
+				start: "start",
+				end: "end"
+			},
+			result: "start-end"
+		},
+		{
+			name: "start-end number",
+			loc: {
+				start: 9,
+				end: 7
+			},
+			result: "9-7"
+		},
+		{
 			name: "line",
 			loc: {
 				start: {
 					line: 10
 				},
 				end: {
-					line: 20
+					index: 20
 				}
 			},
-			result: "10-20"
+			result: "10:?-+20"
 		},
 		{
 			name: "line",

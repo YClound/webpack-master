@@ -1,4 +1,3 @@
-/** @type {import("../../../").Configuration} */
 module.exports = {
 	mode: "development",
 	entry: {
@@ -6,8 +5,7 @@ module.exports = {
 		e2: "./e2"
 	},
 	output: {
-		filename: "[name].js",
-		chunkFilename: "[name].chunk.js"
+		filename: "[name].js"
 	},
 	stats: {
 		hash: false,

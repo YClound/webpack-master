@@ -1,16 +1,16 @@
 const { describeCases } = require("./TestCases.template");
-const webpack = require("..");
+const webpack = require("../lib/webpack");
 
 describe("TestCases", () => {
 	describeCases({
 		name: "all-combined",
 		mode: "production",
-		devtool: "source-map",
+		devtool: "#@source-map",
 		minimize: true,
-		optimization: {
-			moduleIds: "named",
-			chunkIds: "named"
-		},
-		plugins: [new webpack.HotModuleReplacementPlugin()]
+		plugins: [
+			new webpack.HotModuleReplacementPlugin(),
+			new webpack.NamedModulesPlugin(),
+			new webpack.NamedChunksPlugin()
+		]
 	});
 });

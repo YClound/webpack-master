@@ -1,4 +1,3 @@
-/** @type {import("../../../").Configuration} */
 module.exports = {
 	mode: "production",
 	entry: "./index",
@@ -6,7 +5,6 @@ module.exports = {
 		all: false,
 		modules: true,
 		nestedModules: true,
-		orphanModules: true,
 		optimizationBailout: true
 	}
 };

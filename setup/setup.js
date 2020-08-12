@@ -17,7 +17,7 @@ function setup() {
 				});
 			}
 		})
-		.then(() => {
+		.then(message => {
 			process.exitCode = 0;
 		})
 		.catch(e => {
@@ -73,7 +73,7 @@ function exec(command, args, description) {
 		});
 		cp.on("exit", exitCode => {
 			if (exitCode) {
-				reject(`${description} failed with exit code ${exitCode}`);
+				reject(`${description} failed with exitcode ${exitCode}`);
 			} else {
 				resolve();
 			}
@@ -94,9 +94,13 @@ function execGetOutput(command, args, description) {
 		});
 		cp.on("exit", exitCode => {
 			if (exitCode) {
-				reject(`${description} failed with exit code ${exitCode}`);
+				reject(`${description} failed with exitcode ${exitCode}`);
 			} else {
-				resolve(Buffer.concat(buffers).toString("utf-8").trim());
+				resolve(
+					Buffer.concat(buffers)
+						.toString("utf-8")
+						.trim()
+				);
 			}
 		});
 		const buffers = [];

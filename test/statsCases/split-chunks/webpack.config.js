@@ -4,12 +4,10 @@ const stats = {
 	builtAt: false,
 	assets: false,
 	chunks: true,
-	chunkRelations: true,
 	chunkOrigins: true,
 	entrypoints: true,
 	modules: false
 };
-/** @type {import("../../../").Configuration[]} */
 module.exports = [
 	{
 		name: "default",
@@ -41,7 +39,7 @@ module.exports = [
 			c: "./c"
 		},
 		output: {
-			filename: "all-chunks/[name].js"
+			filename: "default/[name].js"
 		},
 		optimization: {
 			splitChunks: {
@@ -57,12 +55,13 @@ module.exports = [
 		mode: "production",
 		entry: {
 			main: "./",
-			a: ["x", "y", "z", "./a"],
-			b: ["x", "y", "z", "./b"],
-			c: ["x", "y", "z", "./c"]
+			a: "./a",
+			b: "./b",
+			c: "./c",
+			vendors: ["x", "y", "z"]
 		},
 		output: {
-			filename: "manual/[name].js"
+			filename: "default/[name].js"
 		},
 		optimization: {
 			splitChunks: {
@@ -71,7 +70,7 @@ module.exports = [
 				cacheGroups: {
 					default: false,
 					vendors: {
-						test: /[\\/]node_modules[\\/]/,
+						test: "vendors",
 						name: "vendors",
 						enforce: true
 					}
@@ -90,7 +89,7 @@ module.exports = [
 			cccccccccccccccccccccccccccccc: "./c"
 		},
 		output: {
-			filename: "name-too-long/[name].js"
+			filename: "[name].js"
 		},
 		optimization: {
 			splitChunks: {
@@ -101,7 +100,28 @@ module.exports = [
 		},
 		stats
 	},
-
+	{
+		name: "name-too-long-limited",
+		mode: "production",
+		entry: {
+			main: "./",
+			aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa: "./a",
+			bbbbbbbbbbbbbbbbbbbbbbbbbbbbbb: "./b",
+			cccccccccccccccccccccccccccccc: "./c"
+		},
+		output: {
+			filename: "[name].js"
+		},
+		optimization: {
+			splitChunks: {
+				minSize: 0,
+				maxInitialRequests: Infinity,
+				chunks: "all",
+				automaticNameMaxLength: 30
+			}
+		},
+		stats
+	},
 	{
 		name: "custom-chunks-filter",
 		mode: "production",
@@ -112,7 +132,7 @@ module.exports = [
 			c: "./c"
 		},
 		output: {
-			filename: "custom-chunks-filter/[name].js"
+			filename: "default/[name].js"
 		},
 		optimization: {
 			splitChunks: {
@@ -128,12 +148,13 @@ module.exports = [
 		mode: "production",
 		entry: {
 			main: "./",
-			a: ["x", "y", "z", "./a"],
-			b: ["x", "y", "z", "./b"],
-			c: ["x", "y", "z", "./c"]
+			a: "./a",
+			b: "./b",
+			c: "./c",
+			vendors: ["x", "y", "z"]
 		},
 		output: {
-			filename: "custom-chunks-filter-in-cache-groups/[name].js"
+			filename: "default/[name].js"
 		},
 		optimization: {
 			splitChunks: {
@@ -142,7 +163,7 @@ module.exports = [
 				cacheGroups: {
 					default: false,
 					vendors: {
-						test: /[\\/]node_modules[\\/]/,
+						test: "vendors",
 						name: "vendors",
 						enforce: true,
 						chunks: chunk => chunk.name !== "a"

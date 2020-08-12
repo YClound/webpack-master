@@ -1,28 +1,28 @@
-"use strict"
+"use strict";
 
-import d, {a, b as B} from "./abc"
+import d, {a, b as B} from "./abc";
 
-import * as abc from "./abc"
+import * as abc from "./abc";
 
 function x() { throw new Error("should not be executed"); }
 it("should have this = undefined on imported non-strict functions", function() {
-	if(true) x
-	d().toBe("undefined")
 	x
-	a().toBe("undefined")
+	expect(d()).toBe("undefined");
 	x
-	B().toBe("undefined")
-})
+	expect(a()).toBe("undefined");
+	x
+	expect(B()).toBe("undefined");
+});
 
-import C2, { C } from "./new"
+import C2, { C } from "./new";
 
-import * as New from "./new"
+import * as New from "./new";
 
 it("should be possible to use new correctly", function() {
 	x
-	new C().ok.toEqual(true)
+	expect(new C()).toEqual({ok: true});
 	x
-	new C2().ok.toEqual(true)
+	expect(new C2()).toEqual({ok: true});
 	x
-	new New.C().ok.toEqual(true)
-})
+	expect(new New.C()).toEqual({ok: true});
+});

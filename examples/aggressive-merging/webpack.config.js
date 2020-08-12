@@ -1,6 +1,5 @@
 var path = require("path");
-var { AggressiveMergingPlugin } = require("../../").optimize;
-
+var AggressiveMergingPlugin = require("../../lib/optimize/AggressiveMergingPlugin");
 module.exports = {
 	// mode: "development" || "production",
 	entry: {
@@ -19,6 +18,6 @@ module.exports = {
 		})
 	],
 	optimization: {
-		chunkIds: "deterministic" // To keep filename consistent between different modes (for example building only)
+		occurrenceOrder: true // To keep filename consistent between different modes (for example building only)
 	}
 };

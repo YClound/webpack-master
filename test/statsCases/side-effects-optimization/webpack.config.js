@@ -16,14 +16,12 @@ const baseConfig = {
 
 module.exports = [
 	baseConfig,
-	{
-		...baseConfig,
+	Object.assign({}, baseConfig, {
 		output: {
 			filename: "[name].no-side.js"
 		},
-		optimization: {
-			...baseConfig.optimization,
+		optimization: Object.assign({}, baseConfig.optimization, {
 			sideEffects: false
-		}
-	}
+		})
+	})
 ];

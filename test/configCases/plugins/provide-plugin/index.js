@@ -59,5 +59,5 @@ it("should provide ES2015 modules", function() {
 
 it("should not provide for mjs", function(){
 	var foo = require("./foo.mjs").default;
-	expect(foo()).toBe("esm");
+	expect(foo()).toBe("undefined");
 });

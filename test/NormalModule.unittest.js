@@ -1,6 +1,8 @@
+/* globals describe it beforeEach */
 "use strict";
 
 const NormalModule = require("../lib/NormalModule");
+const NullDependency = require("../lib/dependencies/NullDependency");
 const SourceMapSource = require("webpack-sources").SourceMapSource;
 const OriginalSource = require("webpack-sources").OriginalSource;
 const RawSource = require("webpack-sources").RawSource;
@@ -43,7 +45,9 @@ describe("NormalModule", () => {
 		});
 		it("returns an identifier from toString", () => {
 			normalModule.debugId = 1000;
-			expect(normalModule.toString()).toBe("Module[1000: /some/request]");
+			expect(normalModule.toString()).toBe("Module[1000]");
+			normalModule.id = 1;
+			expect(normalModule.toString()).toBe("Module[1]");
 		});
 	});
 
@@ -145,15 +149,15 @@ describe("NormalModule", () => {
 		});
 		describe("given no sourcemap", () => {
 			it("returns a RawSource", () => {
-				expect(
-					normalModule.createSourceForAsset("/", name, content)
-				).toBeInstanceOf(RawSource);
+				expect(normalModule.createSourceForAsset(name, content)).toBeInstanceOf(
+					RawSource
+				);
 			});
 		});
 		describe("given a string as the sourcemap", () => {
 			it("returns a OriginalSource", () => {
 				expect(
-					normalModule.createSourceForAsset("/", name, content, sourceMap)
+					normalModule.createSourceForAsset(name, content, sourceMap)
 				).toBeInstanceOf(OriginalSource);
 			});
 		});
@@ -163,7 +167,7 @@ describe("NormalModule", () => {
 			});
 			it("returns a SourceMapSource", () => {
 				expect(
-					normalModule.createSourceForAsset("/", name, content, sourceMap)
+					normalModule.createSourceForAsset(name, content, sourceMap)
 				).toBeInstanceOf(SourceMapSource);
 			});
 		});
@@ -176,6 +180,93 @@ describe("NormalModule", () => {
 		});
 		it("returns an original Source", () => {
 			expect(normalModule.originalSource()).toBe(normalModule._source);
+		});
+	});
+
+	describe("#hasDependencies", () => {
+		it("returns true if has dependencies", () => {
+			normalModule.addDependency(new NullDependency());
+			expect(normalModule.hasDependencies()).toBe(true);
+		});
+		it("returns false if has dependencies", () => {
+			expect(normalModule.hasDependencies()).toBe(false);
+		});
+	});
+	describe("#needRebuild", () => {
+		let fileTimestamps;
+		let contextTimestamps;
+		let fileDependencies;
+		let contextDependencies;
+		let fileA;
+		let fileB;
+
+		function setDeps(fileDependencies, contextDependencies) {
+			normalModule.buildInfo.fileDependencies = fileDependencies;
+			normalModule.buildInfo.contextDependencies = contextDependencies;
+		}
+
+		beforeEach(() => {
+			fileA = "fileA";
+			fileB = "fileB";
+			fileDependencies = [fileA, fileB];
+			contextDependencies = [fileA, fileB];
+			fileTimestamps = new Map([
+				[fileA, 1],
+				[fileB, 1]
+			]);
+			contextTimestamps = new Map([
+				[fileA, 1],
+				[fileB, 1]
+			]);
+			normalModule.buildTimestamp = 2;
+			setDeps(fileDependencies, contextDependencies);
+		});
+		describe("given all timestamps are older than the buildTimestamp", () => {
+			it("returns false", () => {
+				expect(
+					normalModule.needRebuild(fileTimestamps, contextTimestamps)
+				).toBe(false);
+			});
+		});
+		describe("given a file timestamp is newer than the buildTimestamp", () => {
+			beforeEach(() => {
+				fileTimestamps.set(fileA, 3);
+			});
+			it("returns true", () => {
+				expect(
+					normalModule.needRebuild(fileTimestamps, contextTimestamps)
+				).toBe(true);
+			});
+		});
+		describe("given a no file timestamp exists", () => {
+			beforeEach(() => {
+				fileTimestamps = new Map();
+			});
+			it("returns true", () => {
+				expect(
+					normalModule.needRebuild(fileTimestamps, contextTimestamps)
+				).toBe(true);
+			});
+		});
+		describe("given a context timestamp is newer than the buildTimestamp", () => {
+			beforeEach(() => {
+				contextTimestamps.set(fileA, 3);
+			});
+			it("returns true", () => {
+				expect(
+					normalModule.needRebuild(fileTimestamps, contextTimestamps)
+				).toBe(true);
+			});
+		});
+		describe("given a no context timestamp exists", () => {
+			beforeEach(() => {
+				contextTimestamps = new Map();
+			});
+			it("returns true", () => {
+				expect(
+					normalModule.needRebuild(fileTimestamps, contextTimestamps)
+				).toBe(true);
+			});
 		});
 	});
 

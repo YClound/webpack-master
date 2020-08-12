@@ -1,13 +1,13 @@
 function createFunctionArrayFromUseArray(useArray) {
-	return useArray.map(function (useItem) {
-		return function (data) {
+	return useArray.map(function(useItem) {
+		return function(data) {
 			return useItem;
 		};
 	});
 }
 
 var useArray = createFunctionArrayFromUseArray([
-	"./loader",
+	"./loader?second-1",
 	{
 		loader: "./loader",
 		options: "second-2"
@@ -15,14 +15,13 @@ var useArray = createFunctionArrayFromUseArray([
 	{
 		loader: "./loader",
 		options: {
-			get: function () {
+			get: function() {
 				return "second-3";
 			}
 		}
 	}
 ]);
 
-/** @type {import("../../../../").Configuration} */
 module.exports = {
 	module: {
 		rules: [
@@ -32,8 +31,7 @@ module.exports = {
 						test: {
 							and: [/a.\.js$/, /b\.js$/]
 						},
-						loader: "./loader",
-						options: "first"
+						loader: "./loader?first"
 					},
 					{
 						test: [require.resolve("./a"), require.resolve("./c")],

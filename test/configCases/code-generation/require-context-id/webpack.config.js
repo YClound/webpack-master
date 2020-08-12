@@ -1,6 +1,4 @@
-/** @type {import("../../../../").Configuration} */
+var webpack = require("../../../../");
 module.exports = {
-	optimization: {
-		moduleIds: "hashed"
-	}
+	plugins: [new webpack.HashedModuleIdsPlugin()]
 };

@@ -1,10 +1,9 @@
-/** @type {import("../../../../").Configuration} */
 module.exports = {
 	module: {
 		rules: [
 			{
 				test: /[ab]\.js$/,
-				use: function (data) {
+				use: function(data) {
 					return {
 						loader: "./loader",
 						options: {

@@ -1,26 +1,17 @@
 declare module "*.json";
 
-// Deprecated NodeJS API usages in webpack
+// Deprecated NodeJS API usages in Webpack
 declare namespace NodeJS {
 	interface Process {
 		binding(internalModule: string): any;
 	}
-	interface ProcessVersions {
-		pnp: "1" | "3";
-	}
 }
 
 declare module "neo-async" {
-	interface QueueObject<T, E> {
-		push(item: T): void;
-		drain: () => void;
-		error: (err: E) => void;
-	}
-
 	export interface Dictionary<T> {
 		[key: string]: T;
 	}
-	export type IterableCollection<T> = T[] | Iterable<T> | Dictionary<T>;
+	export type IterableCollection<T> = T[] | IterableIterator<T> | Dictionary<T>;
 
 	export interface ErrorCallback<T> {
 		(err?: T): void;
@@ -112,11 +103,6 @@ declare module "neo-async" {
 		tasks: Dictionary<AsyncFunction<T, E>>,
 		callback?: AsyncResultObjectCallback<T, E>
 	): void;
-
-	export function queue<T, E>(
-		worker: AsyncIterator<T, E>,
-		concurrency?: number
-	): QueueObject<T, E>;
 
 	export const forEach: typeof each;
 	export const forEachLimit: typeof eachLimit;
@@ -242,106 +228,4 @@ declare module "@webassemblyjs/ast" {
 	export function isFuncImportDescr(n: Node): boolean;
 }
 
-declare module "webpack-sources" {
-	type MapOptions = { columns?: boolean; module?: boolean };
-
-	export abstract class Source {
-		size(): number;
-
-		map(options?: MapOptions): Object;
-
-		sourceAndMap(
-			options?: MapOptions
-		): {
-			source: string | Buffer;
-			map: Object;
-		};
-
-		updateHash(hash: import("./lib/util/Hash")): void;
-
-		source(): string | Buffer;
-
-		buffer(): Buffer;
-	}
-
-	export class RawSource extends Source {
-		constructor(source: string | Buffer, convertToString?: boolean);
-
-		isBuffer(): boolean;
-	}
-
-	export class OriginalSource extends Source {
-		constructor(source: string | Buffer, name: string);
-
-		getName(): string;
-	}
-
-	export class ReplaceSource extends Source {
-		constructor(source: Source, name?: string);
-
-		replace(start: number, end: number, newValue: string, name?: string): void;
-		insert(pos: number, newValue: string, name?: string): void;
-
-		getName(): string;
-		original(): string;
-		getReplacements(): {
-			start: number;
-			end: number;
-			content: string;
-			insertIndex: number;
-			name: string;
-		}[];
-	}
-
-	export class SourceMapSource extends Source {
-		constructor(
-			source: string | Buffer,
-			name: string,
-			sourceMap: Object | string | Buffer,
-			originalSource?: string | Buffer,
-			innerSourceMap?: Object | string | Buffer
-		);
-
-		getArgsAsBuffers(): [
-			Buffer,
-			string,
-			Buffer,
-			Buffer | undefined,
-			Buffer | undefined
-		];
-	}
-
-	export class ConcatSource extends Source {
-		constructor(...args: (string | Source)[]);
-
-		getChildren(): Source[];
-
-		add(item: string | Source): void;
-		addAllSkipOptimizing(items: Source[]): void;
-	}
-
-	export class PrefixSource extends Source {
-		constructor(prefix: string, source: string | Source);
-
-		original(): Source;
-		getPrefix(): string;
-	}
-
-	export class CachedSource extends Source {
-		constructor(source: Source, cachedData?: any);
-
-		original(): Source;
-		getCachedData(): any;
-	}
-
-	export class SizeOnlySource extends Source {
-		constructor(size: number);
-	}
-}
-
 type TODO = any;
-
-type RecursiveArrayOrRecord<T> =
-	| { [index: string]: RecursiveArrayOrRecord<T> }
-	| Array<RecursiveArrayOrRecord<T>>
-	| T;

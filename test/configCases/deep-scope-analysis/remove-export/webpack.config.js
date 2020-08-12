@@ -1,38 +1,31 @@
-/** @typedef {import("../../../../").Compilation} Compilation */
-
-/** @type {import("../../../../").Configuration} */
+const DependencyReference = require("../../../../").dependencies
+	.DependencyReference;
 module.exports = {
 	optimization: {
 		usedExports: true,
 		concatenateModules: false
 	},
 	plugins: [
-		function () {
+		function() {
 			this.hooks.compilation.tap("Test", compilation => {
-				compilation.hooks.dependencyReferencedExports.tap(
+				compilation.hooks.dependencyReference.tap(
 					"Test",
-					(referencedExports, dep) => {
-						const module = compilation.moduleGraph.getParentModule(dep);
-						if (!module.identifier().endsWith("module.js"))
-							return referencedExports;
-						const refModule = compilation.moduleGraph.getModule(dep);
+					(ref, dep, module) => {
 						if (
-							refModule &&
-							refModule.identifier().endsWith("reference.js") &&
-							referencedExports.some(
-								names =>
-									Array.isArray(names) &&
-									names.length === 1 &&
-									names[0] === "unused"
-							)
+							module.identifier().endsWith("module.js") &&
+							ref.module &&
+							ref.module.identifier().endsWith("reference.js") &&
+							Array.isArray(ref.importedNames) &&
+							ref.importedNames.includes("unused")
 						) {
-							return referencedExports.filter(
-								names =>
-									(Array.isArray(names) && names.length !== 1) ||
-									names[0] !== "unused"
+							return new DependencyReference(
+								ref.module,
+								ref.importedNames.filter(item => item !== "unused"),
+								ref.weak,
+								ref.order
 							);
 						}
-						return referencedExports;
+						return ref;
 					}
 				);
 			});

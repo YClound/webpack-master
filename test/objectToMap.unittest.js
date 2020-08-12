@@ -1,4 +1,4 @@
-"use strict";
+/* globals describe it */
 
 var objectToMap = require("../lib/util/objectToMap");
 

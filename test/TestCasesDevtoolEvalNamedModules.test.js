@@ -1,12 +1,10 @@
 const { describeCases } = require("./TestCases.template");
+const webpack = require("../lib/webpack");
 
 describe("TestCases", () => {
 	describeCases({
 		name: "devtool-eval-named-modules",
 		devtool: "eval",
-		optimization: {
-			moduleIds: "named",
-			chunkIds: "named"
-		}
+		plugins: [new webpack.NamedModulesPlugin()]
 	});
 });

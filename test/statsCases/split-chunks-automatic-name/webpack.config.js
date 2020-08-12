@@ -4,12 +4,10 @@ const stats = {
 	builtAt: false,
 	assets: false,
 	chunks: true,
-	chunkRelations: true,
 	chunkOrigins: true,
 	entrypoints: true,
 	modules: false
 };
-/** @type {import("../../../").Configuration} */
 module.exports = {
 	name: "production",
 	mode: "production",
@@ -17,23 +15,21 @@ module.exports = {
 		main: "./"
 	},
 	optimization: {
-		chunkIds: "named",
 		splitChunks: {
 			chunks: "all",
 			cacheGroups: {
-				default: false,
-				defaultVendors: false,
-				a: {
-					idHint: "common",
+				default: {
+					automaticNamePrefix: "common",
 					reuseExistingChunk: true,
 					minChunks: 2,
+					priority: -20,
 					enforce: true // minChunks should have higher priority
 				},
-				b: {
-					idHint: "common",
+				vendors: {
+					automaticNamePrefix: "common",
 					test: /[\\/]node_modules[\\/]/,
 					minSize: 1,
-					priority: 10
+					priority: -10
 				}
 			}
 		}

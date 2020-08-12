@@ -448,43 +448,27 @@ rules:
     actions:
       label: "PR: unreviewed"
 
-  # add non-master, webpack-4 and next label to pull request to other branch
+  # add non-master and next label to pull request to other branch
   - filters:
       pull_request:
         base_ref: "^master$"
     actions:
       label:
-        remove:
-          - "PR: next"
-          - "PR: webpack-4"
-          - "PR: non-master"
+        remove: "PR: non-master"
   - filters:
       pull_request:
         base_ref: "^next$"
     actions:
       label:
         add: "PR: next"
-        remove:
-          - "PR: webpack-4"
-          - "PR: non-master"
+        remove: "PR: non-master"
   - filters:
       pull_request:
-        base_ref: "^webpack-4$"
-    actions:
-      label:
-        add: "PR: webpack-4"
-        remove:
-          - "PR: next"
-          - "PR: non-master"
-  - filters:
-      pull_request:
-        base_ref: "^(?!master$)(?!webpack-4$)(?!next$)"
+        base_ref: "^(?!master$)(?!next$)"
     actions:
       label:
         add: "PR: non-master"
-        remove:
-          - "PR: next"
-          - "PR: webpack-4"
+        remove: "PR: next"
 
   # add non-master label to pull request to other branch
   - filters:
@@ -579,12 +563,12 @@ rules:
       ensure:
         value: "{{issue.reactions.[+1]}}"
         range: "< 10"
-      last_action_age: 13w # three months
+      last_action_age: 26w # half a year
     actions:
       comment:
-        identifier: inactive-warning
+        identifer: inactive-warning
         message: |-
-          **This issue had no activity for at least three months.**
+          **This issue had no activity for at least half a year.**
 
           It's subject to automatic issue closing if there is no activity in the next 15 days.
       label: inactive
@@ -592,7 +576,7 @@ rules:
       open: true
       label: inactive
       last_action_age:
-        maximum: 13w # three months
+        maximum: 26w # half a year
     actions:
       label:
         remove:
@@ -606,7 +590,7 @@ rules:
     actions:
       close: true
       comment:
-        identifier: inactive-close
+        identifer: inactive-close
         message: |-
           Issue was closed because of inactivity.
 
@@ -626,8 +610,7 @@ rules:
         message: |-
           *For maintainers only:*
 
-          * [ ] <!-- document --> This needs to be documented (issue in webpack/webpack.js.org will be filed when merged)
-          * [ ] <!-- webpack-4-backport --> This needs to be backported to webpack 4 (issue will be created when merged)
+          * [ ] <!-- document --> This need to be documented (issue in webpack/webpack.js.org will be filed when merged)
 
   # When a pull request need to be documented, create an issue in webpack/webpack.js.org when merged
   - filters:
@@ -658,32 +641,6 @@ rules:
         identifier: admin-action-document-executed
         message: |-
           I've created an issue to document this in webpack/webpack.js.org.
-
-  # When a pull request need to be backported, create an issue in webpack/webpack when merged
-  - filters:
-      pull_request:
-        merged: true
-      comment:
-        author: webpack-bot
-        matching: "\\* \\[x\\] <!-- webpack-4-backport -->"
-      not:
-        comment_1:
-          author: webpack-bot
-          matching: admin-action-webpack-4-backport-executed
-    actions:
-      new_issue:
-        target: webpack/webpack
-        title: "Backport to webpack 4: {{{pull_request.title}}}"
-        body: |-
-          {{{pull_request.html_url}}} needs to be backported to webpack 4.
-
-          Send a PR.
-
-          cc @{{pull_request.user.login}}
-      comment:
-        identifier: admin-action-webpack-4-backport-executed
-        message: |-
-          I've created an issue to backport this.
 
   # Check open issues and pull requests every day
   - filters:

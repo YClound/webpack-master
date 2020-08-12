@@ -5,7 +5,6 @@ const acornParser = acorn.Parser;
 
 module.exports = function(source) {
 	const comments = [];
-
 	const ast = acornParser.parse(source, {
 		ranges: true,
 		locations: true,

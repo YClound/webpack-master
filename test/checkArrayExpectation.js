@@ -1,37 +1,6 @@
 "use strict";
-const fs = require("graceful-fs");
+const fs = require("fs");
 const path = require("path");
-
-const check = (expected, actual) => {
-	if (expected instanceof RegExp) {
-		expected = { message: expected };
-	}
-	return Object.keys(expected).every(key => {
-		let value = actual[key];
-		if (typeof value === "object") {
-			value = JSON.stringify(value);
-		}
-		return expected[key].test(value);
-	});
-};
-
-const explain = object => {
-	if (object instanceof RegExp) {
-		object = { message: object };
-	}
-	return Object.keys(object)
-		.map(key => {
-			let value = object[key];
-			if (typeof value === "object" && !(value instanceof RegExp)) {
-				value = JSON.stringify(value);
-			}
-			let msg = `${key} = ${value}`;
-			if (key !== "stack" && key !== "details" && msg.length > 100)
-				msg = msg.slice(0, 97) + "...";
-			return msg;
-		})
-		.join("; ");
-};
 
 module.exports = function checkArrayExpectation(
 	testDirectory,
@@ -46,61 +15,56 @@ module.exports = function checkArrayExpectation(
 		upperCaseKind = filename;
 		filename = `${kind}s`;
 	}
-	let array = object[`${kind}s`];
-	if (Array.isArray(array)) {
-		if (kind === "warning") {
-			array = array.filter(item => !/from Terser/.test(item));
-		}
-	}
+	let array = object[`${kind}s`].slice().sort();
+	if (kind === "warning")
+		array = array.filter(item => !/from Terser/.test(item));
 	if (fs.existsSync(path.join(testDirectory, `${filename}.js`))) {
 		const expectedFilename = path.join(testDirectory, `${filename}.js`);
 		const expected = require(expectedFilename);
-		if (expected.length < array.length) {
+		if (expected.length < array.length)
 			return (
 				done(
 					new Error(
-						`More ${kind}s while compiling than expected:\n\n${array
-							.map(explain)
-							.join("\n\n")}. Check expected ${kind}s: ${expectedFilename}`
+						`More ${kind}s while compiling than expected:\n\n${array.join(
+							"\n\n"
+						)}. Check expected warnings: ${filename}`
 					)
 				),
 				true
 			);
-		} else if (expected.length > array.length) {
+		else if (expected.length > array.length)
 			return (
 				done(
 					new Error(
-						`Less ${kind}s while compiling than expected:\n\n${array
-							.map(explain)
-							.join("\n\n")}. Check expected ${kind}s: ${expectedFilename}`
+						`Less ${kind}s while compiling than expected:\n\n${array.join(
+							"\n\n"
+						)}. Check expected warnings: ${filename}`
 					)
 				),
 				true
 			);
-		}
 		for (let i = 0; i < array.length; i++) {
 			if (Array.isArray(expected[i])) {
 				for (let j = 0; j < expected[i].length; j++) {
-					if (!check(expected[i][j], array[i])) {
+					if (!expected[i][j].test(array[i]))
 						return (
 							done(
 								new Error(
-									`${upperCaseKind} ${i}: ${explain(
-										array[i]
-									)} doesn't match ${explain(expected[i][j])}`
+									`${upperCaseKind} ${i}: ${array[i]} doesn't match ${expected[
+										i
+									][j].toString()}`
 								)
 							),
 							true
 						);
-					}
 				}
-			} else if (!check(expected[i], array[i]))
+			} else if (!expected[i].test(array[i]))
 				return (
 					done(
 						new Error(
-							`${upperCaseKind} ${i}: ${explain(
-								array[i]
-							)} doesn't match ${explain(expected[i])}`
+							`${upperCaseKind} ${i}: ${array[i]} doesn't match ${expected[
+								i
+							].toString()}`
 						)
 					),
 					true
@@ -109,11 +73,7 @@ module.exports = function checkArrayExpectation(
 	} else if (array.length > 0) {
 		return (
 			done(
-				new Error(
-					`${upperCaseKind}s while compiling:\n\n${array
-						.map(explain)
-						.join("\n\n")}`
-				)
+				new Error(`${upperCaseKind}s while compiling:\n\n${array.join("\n\n")}`)
 			),
 			true
 		);

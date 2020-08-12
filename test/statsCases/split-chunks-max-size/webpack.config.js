@@ -4,12 +4,10 @@ const stats = {
 	builtAt: false,
 	assets: false,
 	chunks: true,
-	chunkRelations: true,
 	chunkOrigins: true,
 	entrypoints: true,
 	modules: false
 };
-/** @type {import("../../../").Configuration[]} */
 module.exports = [
 	{
 		name: "production",
@@ -78,24 +76,6 @@ module.exports = [
 			splitChunks: {
 				minSize: 0,
 				maxSize: 1000,
-				chunks: "all"
-			}
-		},
-		stats
-	},
-	{
-		name: "max-async-size",
-		mode: "production",
-		entry: {
-			main: "./async"
-		},
-		output: {
-			filename: "max-async-size-[name].js"
-		},
-		optimization: {
-			splitChunks: {
-				minSize: 0,
-				maxAsyncSize: 1000,
 				chunks: "all"
 			}
 		},

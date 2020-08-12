@@ -1,4 +1,3 @@
-/** @type {import("../../../../").Configuration} */
 module.exports = {
 	resolveLoader: {
 		alias: {
@@ -28,17 +27,11 @@ module.exports = {
 			},
 			{
 				test: /b2\.js$/,
-				loader: "some-loader",
-				options: "foo=someOtherMessage"
+				loader: "some-loader?foo=someOtherMessage"
 			},
 			{
 				test: /b3\.js$/,
-				use: [
-					{
-						loader: "some-loader",
-						options: "foo=someOtherMessage"
-					}
-				]
+				use: ["some-loader?foo=someOtherMessage"]
 			}
 		]
 	}

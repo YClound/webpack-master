@@ -1,4 +1,3 @@
-/** @type {import("../../../../").Configuration} */
 module.exports = {
 	mode: "none",
 	entry: {
@@ -6,7 +5,7 @@ module.exports = {
 	},
 	target: "node",
 	optimization: {
-		chunkIds: "named",
-		moduleIds: "named"
+		namedChunks: true,
+		namedModules: true
 	}
 };

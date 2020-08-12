@@ -24,18 +24,121 @@ module.exports = function() {
 
 # dist/output.js
 
+<details><summary><code>/******/ (function(modules) { /* webpackBootstrap */ })</code></summary>
+
 ``` javascript
-/******/ (() => { // webpackBootstrap
-/******/ 	var __webpack_modules__ = ([
-/* 0 */,
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "dist/";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ })
+/************************************************************************/
+```
+
+</details>
+
+``` javascript
+/******/ ([
+/* 0 */
+/*!********************!*\
+  !*** ./example.js ***!
+  \********************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+function getTemplate(templateName) {
+	return __webpack_require__(1)("./"+templateName);
+}
+console.log(getTemplate("a"));
+console.log(getTemplate("b"));
+
+/***/ }),
 /* 1 */
 /*!*********************************!*\
   !*** ./templates sync ^\.\/.*$ ***!
   \*********************************/
-/*! unknown exports (runtime-defined) */
-/*! exports [maybe provided (runtime-defined)] [maybe used (runtime-defined)] */
-/*! runtime requirements: module, __webpack_require__.o, __webpack_require__ */
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 var map = {
 	"./a": 2,
@@ -71,10 +174,8 @@ webpackContext.id = 1;
 /*!************************!*\
   !*** ./templates/a.js ***!
   \************************/
-/*! unknown exports (runtime-defined) */
-/*! exports [maybe provided (runtime-defined)] [maybe used (runtime-defined)] */
-/*! runtime requirements: module */
-/***/ ((module) => {
+/*! no static exports found */
+/***/ (function(module, exports) {
 
 module.exports = function() {
 	return "This text was generated by template A";
@@ -85,10 +186,8 @@ module.exports = function() {
 /*!************************!*\
   !*** ./templates/b.js ***!
   \************************/
-/*! unknown exports (runtime-defined) */
-/*! exports [maybe provided (runtime-defined)] [maybe used (runtime-defined)] */
-/*! runtime requirements: module */
-/***/ ((module) => {
+/*! no static exports found */
+/***/ (function(module, exports) {
 
 module.exports = function() {
 	return "This text was generated by template B";
@@ -99,74 +198,15 @@ module.exports = function() {
 /*!************************!*\
   !*** ./templates/c.js ***!
   \************************/
-/*! unknown exports (runtime-defined) */
-/*! exports [maybe provided (runtime-defined)] [maybe used (runtime-defined)] */
-/*! runtime requirements: module */
-/***/ ((module) => {
+/*! no static exports found */
+/***/ (function(module, exports) {
 
 module.exports = function() {
 	return "This text was generated by template C";
 }
 
 /***/ })
-/******/ 	]);
-```
-
-<details><summary><code>/* webpack runtime code */</code></summary>
-
-``` js
-/************************************************************************/
-/******/ 	// The module cache
-/******/ 	var __webpack_module_cache__ = {};
-/******/ 	
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-/******/ 		// Check if module is in cache
-/******/ 		if(__webpack_module_cache__[moduleId]) {
-/******/ 			return __webpack_module_cache__[moduleId].exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = __webpack_module_cache__[moduleId] = {
-/******/ 			// no module.id needed
-/******/ 			// no module.loaded needed
-/******/ 			exports: {}
-/******/ 		};
-/******/ 	
-/******/ 		// Execute the module function
-/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
-/******/ 	
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-/******/ 	
-/************************************************************************/
-/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	(() => {
-/******/ 		__webpack_require__.o = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop)
-/******/ 	})();
-/******/ 	
-/************************************************************************/
-```
-
-</details>
-
-``` js
-(() => {
-/*!********************!*\
-  !*** ./example.js ***!
-  \********************/
-/*! unknown exports (runtime-defined) */
-/*! exports [maybe provided (runtime-defined)] [unused] */
-/*! runtime requirements: __webpack_require__ */
-function getTemplate(templateName) {
-	return __webpack_require__(1)("./"+templateName);
-}
-console.log(getTemplate("a"));
-console.log(getTemplate("b"));
-})();
-
-/******/ })()
-;
+/******/ ]);
 ```
 
 # Info
@@ -175,60 +215,50 @@ console.log(getTemplate("b"));
 
 ```
 Hash: 0a1b2c3d4e5f6a7b8c9d
-Version: webpack 5.0.0-beta.16
-    Asset      Size
-output.js  3.77 KiB  [emitted]  [name: main]
+Version: webpack 4.39.0
+    Asset      Size  Chunks             Chunk Names
+output.js  5.39 KiB       0  [emitted]  main
 Entrypoint main = output.js
-chunk output.js (main) 603 bytes (javascript) 86 bytes (runtime) [entry] [rendered]
+chunk    {0} output.js (main) 603 bytes [entry] [rendered]
     > ./example.js main
- ./example.js 146 bytes [built]
-     [no exports used]
-     entry ./example.js main
- ./templates sync ^\.\/.*$ 217 bytes [built]
-     cjs require context ./templates ./example.js 2:8-44
- ./templates/a.js 80 bytes [built]
-     cjs self exports reference ./templates/a.js 1:0-14
-     context element ./a ./templates sync ^\.\/.*$ ./a
-     context element ./a.js ./templates sync ^\.\/.*$ ./a.js
- ./templates/b.js 80 bytes [built]
-     cjs self exports reference ./templates/b.js 1:0-14
-     context element ./b ./templates sync ^\.\/.*$ ./b
-     context element ./b.js ./templates sync ^\.\/.*$ ./b.js
- ./templates/c.js 80 bytes [built]
-     cjs self exports reference ./templates/c.js 1:0-14
-     context element ./c ./templates sync ^\.\/.*$ ./c
-     context element ./c.js ./templates sync ^\.\/.*$ ./c.js
-     + 1 hidden chunk module
+ [0] ./example.js 146 bytes {0} [built]
+     single entry ./example.js  main
+ [1] ./templates sync ^\.\/.*$ 217 bytes {0} [built]
+     cjs require context ./templates [0] ./example.js 2:8-44
+ [2] ./templates/a.js 80 bytes {0} [optional] [built]
+     context element ./a [1] ./templates sync ^\.\/.*$ ./a
+     context element ./a.js [1] ./templates sync ^\.\/.*$ ./a.js
+ [3] ./templates/b.js 80 bytes {0} [optional] [built]
+     context element ./b [1] ./templates sync ^\.\/.*$ ./b
+     context element ./b.js [1] ./templates sync ^\.\/.*$ ./b.js
+ [4] ./templates/c.js 80 bytes {0} [optional] [built]
+     context element ./c [1] ./templates sync ^\.\/.*$ ./c
+     context element ./c.js [1] ./templates sync ^\.\/.*$ ./c.js
 ```
 
 ## Production mode
 
 ```
 Hash: 0a1b2c3d4e5f6a7b8c9d
-Version: webpack 5.0.0-beta.16
-    Asset       Size
-output.js  819 bytes  [emitted]  [name: main]
+Version: webpack 4.39.0
+    Asset      Size  Chunks             Chunk Names
+output.js  1.53 KiB       0  [emitted]  main
 Entrypoint main = output.js
-chunk output.js (main) 603 bytes (javascript) 86 bytes (runtime) [entry] [rendered]
+chunk    {0} output.js (main) 603 bytes [entry] [rendered]
     > ./example.js main
- ./example.js 146 bytes [built]
-     [no exports used]
-     entry ./example.js main
- ./templates sync ^\.\/.*$ 217 bytes [built]
-     cjs require context ./templates ./example.js 2:8-44
- ./templates/a.js 80 bytes [built]
-     cjs self exports reference ./templates/a.js 1:0-14
-     context element ./a ./templates sync ^\.\/.*$ ./a
-     context element ./a.js ./templates sync ^\.\/.*$ ./a.js
- ./templates/b.js 80 bytes [built]
-     cjs self exports reference ./templates/b.js 1:0-14
-     context element ./b ./templates sync ^\.\/.*$ ./b
-     context element ./b.js ./templates sync ^\.\/.*$ ./b.js
- ./templates/c.js 80 bytes [built]
-     cjs self exports reference ./templates/c.js 1:0-14
-     context element ./c ./templates sync ^\.\/.*$ ./c
-     context element ./c.js ./templates sync ^\.\/.*$ ./c.js
-     + 1 hidden chunk module
+ [0] ./templates/a.js 80 bytes {0} [optional] [built]
+     context element ./a [4] ./templates sync ^\.\/.*$ ./a
+     context element ./a.js [4] ./templates sync ^\.\/.*$ ./a.js
+ [1] ./templates/b.js 80 bytes {0} [optional] [built]
+     context element ./b [4] ./templates sync ^\.\/.*$ ./b
+     context element ./b.js [4] ./templates sync ^\.\/.*$ ./b.js
+ [2] ./templates/c.js 80 bytes {0} [optional] [built]
+     context element ./c [4] ./templates sync ^\.\/.*$ ./c
+     context element ./c.js [4] ./templates sync ^\.\/.*$ ./c.js
+ [3] ./example.js 146 bytes {0} [built]
+     single entry ./example.js  main
+ [4] ./templates sync ^\.\/.*$ 217 bytes {0} [built]
+     cjs require context ./templates [3] ./example.js 2:8-44
 ```
 
 # Code Splitting

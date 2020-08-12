@@ -1,5 +1,4 @@
 var webpack = require("../../../../");
-/** @type {import("../../../../").Configuration} */
 module.exports = {
 	plugins: [
 		new webpack.DllReferencePlugin({
@@ -9,9 +8,9 @@ module.exports = {
 				"./module": {
 					id: 1,
 					buildMeta: {
-						exportsType: "namespace"
-					},
-					exports: ["default"]
+						exportsType: "namespace",
+						providedExports: ["default"]
+					}
 				}
 			}
 		}),

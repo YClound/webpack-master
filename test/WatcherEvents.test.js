@@ -1,12 +1,13 @@
 "use strict";
 
+/* globals describe it */
 const path = require("path");
-const { createFsFromVolume, Volume } = require("memfs");
-const webpack = require("..");
+const MemoryFs = require("memory-fs");
+const webpack = require("../");
 
 const createCompiler = config => {
 	const compiler = webpack(config);
-	compiler.outputFileSystem = createFsFromVolume(new Volume());
+	compiler.outputFileSystem = new MemoryFs();
 	return compiler;
 };
 

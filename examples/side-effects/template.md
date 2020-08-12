@@ -11,7 +11,7 @@ After being built by webpack, the output bundle contains `index.js` `a.js` `b.js
 Advantages:
 
 - Smaller bundles
-- Faster boot up
+- Faster bootup
 
 # example.js
 

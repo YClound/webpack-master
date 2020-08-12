@@ -1,8 +1,10 @@
+/*globals describe it */
 "use strict";
 
 const path = require("path");
-const fs = require("graceful-fs");
-const rimraf = require("rimraf");
+const fs = require("fs");
+
+const Stats = require("../lib/Stats");
 const captureStdio = require("./helpers/captureStdio");
 
 let webpack;
@@ -39,17 +41,14 @@ describe("StatsTestCases", () => {
 	let stderr;
 	beforeEach(() => {
 		stderr = captureStdio(process.stderr, true);
-		webpack = require("..");
+		webpack = require("../lib/webpack");
 	});
 	afterEach(() => {
 		stderr.restore();
 	});
 	tests.forEach(testName => {
 		it("should print correct stats for " + testName, done => {
-			jest.setTimeout(30000);
-			const outputDirectory = path.join(outputBase, testName);
-			rimraf.sync(outputDirectory);
-			fs.mkdirSync(outputDirectory, { recursive: true });
+			jest.setTimeout(10000);
 			let options = {
 				mode: "development",
 				entry: "./index",
@@ -74,18 +73,26 @@ describe("StatsTestCases", () => {
 			(Array.isArray(options) ? options : [options]).forEach(options => {
 				if (!options.context) options.context = path.join(base, testName);
 				if (!options.output) options.output = options.output || {};
-				if (!options.output.path) options.output.path = outputDirectory;
+				if (!options.output.path)
+					options.output.path = path.join(outputBase, testName);
 				if (!options.plugins) options.plugins = [];
 				if (!options.optimization) options.optimization = {};
 				if (options.optimization.minimize === undefined)
 					options.optimization.minimize = false;
+				// To support deprecated loaders
+				// TODO remove in webpack 5
+				options.plugins.push(
+					new webpack.LoaderOptionsPlugin({
+						options: {}
+					})
+				);
 			});
 			const c = webpack(options);
 			const compilers = c.compilers ? c.compilers : [c];
 			compilers.forEach(c => {
 				const ifs = c.inputFileSystem;
 				c.inputFileSystem = Object.create(ifs);
-				c.inputFileSystem.readFile = function () {
+				c.inputFileSystem.readFile = function() {
 					const args = Array.prototype.slice.call(arguments);
 					const callback = args.pop();
 					ifs.readFile.apply(
@@ -93,76 +100,34 @@ describe("StatsTestCases", () => {
 						args.concat([
 							(err, result) => {
 								if (err) return callback(err);
-								if (!/\.(js|json|txt)$/.test(args[0]))
-									return callback(null, result);
 								callback(null, result.toString("utf-8").replace(/\r/g, ""));
 							}
 						])
 					);
 				};
-				c.hooks.compilation.tap("StatsTestCasesTest", compilation => {
-					[
-						"optimize",
-						"optimizeModules",
-						"optimizeChunks",
-						"afterOptimizeTree",
-						"afterOptimizeAssets",
-						"beforeHash"
-					].forEach(hook => {
-						compilation.hooks[hook].tap("TestCasesTest", () =>
-							compilation.checkConstraints()
-						);
-					});
-				});
 			});
 			c.run((err, stats) => {
 				if (err) return done(err);
 				if (/error$/.test(testName)) {
 					expect(stats.hasErrors()).toBe(true);
 				} else if (stats.hasErrors()) {
-					return done(
-						new Error(
-							stats.toString({
-								all: false,
-								errors: true,
-								errorStack: true,
-								errorDetails: true
-							})
-						)
-					);
-				} else {
-					fs.writeFileSync(
-						path.join(outputBase, testName, "stats.txt"),
-						stats.toString({
-							preset: "verbose",
-							context: path.join(base, testName),
-							colors: false
-						}),
-						"utf-8"
-					);
+					return done(new Error(stats.toJson().errors.join("\n\n")));
 				}
 				let toStringOptions = {
 					context: path.join(base, testName),
 					colors: false
 				};
 				let hasColorSetting = false;
-				if (typeof c.options.stats !== "undefined") {
-					toStringOptions = c.options.stats;
+				if (typeof options.stats !== "undefined") {
+					toStringOptions = options.stats;
 					if (toStringOptions === null || typeof toStringOptions !== "object")
-						toStringOptions = { preset: toStringOptions };
+						toStringOptions = Stats.presetToOptions(toStringOptions);
+					hasColorSetting = typeof options.stats.colors !== "undefined";
 					if (!toStringOptions.context)
 						toStringOptions.context = path.join(base, testName);
-					hasColorSetting = typeof toStringOptions.colors !== "undefined";
 				}
-				if (Array.isArray(c.options) && !toStringOptions.children) {
-					toStringOptions.children = c.options.map(o => o.stats);
-				}
-				// mock timestamps
-				for (const s of [].concat(stats.stats || stats)) {
-					expect(s.startTime).toBeGreaterThan(0);
-					expect(s.endTime).toBeGreaterThan(0);
-					s.endTime = new Date("04/20/1970, 12:42:42 PM").getTime();
-					s.startTime = s.endTime - 1234;
+				if (Array.isArray(options) && !toStringOptions.children) {
+					toStringOptions.children = options.map(o => o.stats);
 				}
 				let actual = stats.toString(toStringOptions);
 				expect(typeof actual).toBe("string");
@@ -170,7 +135,11 @@ describe("StatsTestCases", () => {
 					actual = stderr.toString() + actual;
 					actual = actual
 						.replace(/\u001b\[[0-9;]*m/g, "")
-						.replace(/[.0-9]+(\s?ms)/g, "X$1");
+						.replace(/[.0-9]+(\s?ms)/g, "X$1")
+						.replace(
+							/^(\s*Built at:) (.*)$/gm,
+							"$1 Thu Jan 01 1970 00:00:00 GMT"
+						);
 				} else {
 					actual = stderr.toStringRaw() + actual;
 					actual = actual
@@ -178,15 +147,21 @@ describe("StatsTestCases", () => {
 						.replace(/\u001b\[1m/g, "<CLR=BOLD>")
 						.replace(/\u001b\[39m\u001b\[22m/g, "</CLR>")
 						.replace(/\u001b\[([0-9;]*)m/g, "<CLR=$1>")
-						.replace(/[.0-9]+(<\/CLR>)?(\s?ms)/g, "X$1$2");
+						.replace(/[.0-9]+(<\/CLR>)?(\s?ms)/g, "X$1$2")
+						.replace(
+							/^(\s*Built at:) (.*)$/gm,
+							"$1 Thu Jan 01 1970 <CLR=BOLD>00:00:00</CLR> GMT"
+						);
 				}
-				const testPath = path.join(base, testName);
 				actual = actual
 					.replace(/\r\n?/g, "\n")
 					.replace(/[\t ]*Version:.+\n/g, "")
-					.replace(new RegExp(quotemeta(testPath), "g"), "Xdir/" + testName)
+					.replace(
+						new RegExp(quotemeta(path.join(base, testName)), "g"),
+						"Xdir/" + testName
+					)
 					.replace(/(\w)\\(\w)/g, "$1/$2")
-					.replace(/, additional resolving: X ms/g, "");
+					.replace(/ dependencies:Xms/g, "");
 				expect(actual).toMatchSnapshot();
 				if (testConfig.validate) testConfig.validate(stats, stderr.toString());
 				done();

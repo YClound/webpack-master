@@ -4,13 +4,11 @@ const stats = {
 	builtAt: false,
 	assets: false,
 	chunks: true,
-	chunkRelations: true,
 	chunkOrigins: true,
 	entrypoints: true,
 	chunkGroups: true,
 	modules: false
 };
-/** @type {import("../../../").Configuration} */
 module.exports = {
 	name: "default",
 	mode: "production",

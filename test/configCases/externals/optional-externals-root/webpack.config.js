@@ -1,6 +1,7 @@
-/** @type {import("../../../../").Configuration} */
 module.exports = {
-	externalsType: "var",
+	output: {
+		libraryTarget: "var"
+	},
 	externals: {
 		external: "external"
 	}

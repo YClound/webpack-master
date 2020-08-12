@@ -23,10 +23,7 @@ it("should extract comments to separate file", function() {
 	const fs = require("fs");
 	const path = require("path");
 
-	const source = fs.readFileSync(
-		path.join(__dirname, "extract.js.LICENSE.txt"),
-		"utf-8"
-	);
+	const source = fs.readFileSync(path.join(__dirname, "extract.js.LICENSE"), "utf-8");
 
 	expect(source).toMatch("comment should be extracted extract-test.1");
 	expect(source).not.toMatch("comment should be stripped extract-test.2");
@@ -44,9 +41,7 @@ it("should remove extracted comments and insert a banner", function() {
 	expect(source).not.toMatch("comment should be stripped extract-test.2");
 	expect(source).not.toMatch("comment should be extracted extract-test.3");
 	expect(source).not.toMatch("comment should be stripped extract-test.4");
-	expect(source).toMatch(
-		"/*! For license information please see extract.js.LICENSE.txt */"
-	);
+	expect(source).toMatch("/*! For license information please see extract.js.LICENSE */");
 });
 
 it("should pass mangle options", function() {
@@ -55,9 +50,7 @@ it("should pass mangle options", function() {
 
 	const source = fs.readFileSync(path.join(__dirname, "ie8.js"), "utf-8");
 
-	expect(source).toMatch(
-		/\.exports=function\((\w)\)\{return function\((\w)\)\{try\{\1\(\)\}catch\(\1\)\{\2\(\1\)\}\}\}/
-	);
+	expect(source).toMatch(".exports=function(e){return function(t){try{e()}catch(e){t(e)}}}");
 });
 
 it("should pass compress options", function() {
@@ -66,9 +59,7 @@ it("should pass compress options", function() {
 
 	const source = fs.readFileSync(path.join(__dirname, "compress.js"), "utf-8");
 
-	expect(source).toMatch(
-		".exports=function(){console.log(4),console.log(6),console.log(4),console.log(7)}"
-	);
+	expect(source).toMatch(".exports=function(){console.log(4),console.log(6),console.log(4),console.log(7)}");
 });
 
-if (Math.random() < 0) require("./test.js");
+require.include("./test.js");

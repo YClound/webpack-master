@@ -1,5 +1,6 @@
 "use strict";
 
+/*globals describe it */
 const path = require("path");
 const fs = require("fs");
 

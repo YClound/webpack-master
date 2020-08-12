@@ -1,4 +1,3 @@
-/** @type {import("../../../../").Configuration} */
 module.exports = {
 	entry: {
 		b: "./entry-b",

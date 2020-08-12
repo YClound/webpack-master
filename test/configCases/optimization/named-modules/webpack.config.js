@@ -1,6 +1,5 @@
-/** @type {import("../../../../").Configuration} */
 module.exports = {
 	optimization: {
-		moduleIds: "named"
+		namedModules: true
 	}
 };

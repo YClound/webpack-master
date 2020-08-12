@@ -1,10 +1,8 @@
-/** @type {import("../../../").Configuration} */
 module.exports = {
 	mode: "production",
 	entry: "./index",
 	stats: {
-		assets: true,
-		chunkGroups: true,
+		assets: false,
 		chunks: true,
 		chunkModules: true,
 		modules: true,

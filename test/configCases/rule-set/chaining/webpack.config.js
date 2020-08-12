@@ -1,32 +1,13 @@
-/** @type {import("../../../../").Configuration} */
 module.exports = {
 	module: {
 		rules: [
 			{
 				resource: /abc\.js$/,
-				use: [
-					{
-						loader: "./loader",
-						options: "a"
-					},
-					{
-						loader: "./loader",
-						options: "b"
-					}
-				]
+				loader: "./loader?a!./loader?b"
 			},
 			{
 				resource: /def\.js$/,
-				use: [
-					{
-						loader: "./loader",
-						options: "c"
-					},
-					{
-						loader: "./loader",
-						options: "d"
-					}
-				]
+				loaders: "./loader?c!./loader?d"
 			}
 		]
 	}

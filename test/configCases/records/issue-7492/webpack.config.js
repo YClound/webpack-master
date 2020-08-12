@@ -1,6 +1,5 @@
 var path = require("path");
 
-/** @type {import("../../../../").Configuration} */
 module.exports = {
 	entry: "./index",
 	recordsInputPath: path.resolve(__dirname, "records.json"),

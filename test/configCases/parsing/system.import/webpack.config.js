@@ -22,7 +22,6 @@ function createConfig(system) {
 	};
 }
 
-/** @type {import("../../../../").Configuration[]} */
 module.exports = [
 	createConfig(undefined),
 	createConfig(true),

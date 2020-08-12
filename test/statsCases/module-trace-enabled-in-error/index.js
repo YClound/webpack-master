@@ -1,1 +1,1 @@
-require('./inner')
+require('does-not-exist')

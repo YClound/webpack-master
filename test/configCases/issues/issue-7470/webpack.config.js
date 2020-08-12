@@ -1,8 +1,7 @@
 "use strict";
 
-const DefinePlugin = require("../../../../").DefinePlugin;
+const DefinePlugin = require("../../../../lib/DefinePlugin");
 
-/** @type {import("../../../../").Configuration[]} */
 module.exports = [
 	{
 		name: "development",

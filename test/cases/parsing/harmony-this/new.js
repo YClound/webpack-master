@@ -1,8 +1,10 @@
 function C() {
-	this.ok = expect(this.pok);
+	this.ok = this.pok;
 }
 
 C.prototype.pok = true;
 
 export default C;
-export { C };
+export {
+	C
+};

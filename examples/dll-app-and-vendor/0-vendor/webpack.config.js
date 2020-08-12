@@ -6,13 +6,13 @@ module.exports = {
 	context: __dirname,
 	entry: ["example-vendor"],
 	output: {
-		filename: "vendor.js", // best use [fullhash] here too
+		filename: "vendor.js", // best use [hash] here too
 		path: path.resolve(__dirname, "dist"),
-		library: "vendor_lib_[fullhash]"
+		library: "vendor_lib_[hash]"
 	},
 	plugins: [
 		new webpack.DllPlugin({
-			name: "vendor_lib_[fullhash]",
+			name: "vendor_lib_[hash]",
 			path: path.resolve(__dirname, "dist/vendor-manifest.json")
 		})
 	]

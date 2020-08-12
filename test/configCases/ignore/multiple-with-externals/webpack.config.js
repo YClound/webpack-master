@@ -1,8 +1,7 @@
 "use strict";
 
-const IgnorePlugin = require("../../../../").IgnorePlugin;
+const IgnorePlugin = require("../../../../lib/IgnorePlugin");
 
-/** @type {import("../../../../").Configuration} */
 module.exports = {
 	entry: "./test.js",
 	externals: {

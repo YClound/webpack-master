@@ -1,6 +1,5 @@
 const webpack = require("../../../");
 
-/** @type {import("../../../").Configuration} */
 module.exports = {
 	mode: "none",
 	entry: {
@@ -8,14 +7,14 @@ module.exports = {
 		main2: "./main2"
 	},
 	plugins: [
-		new webpack.ids.ChunkModuleIdRangePlugin({
+		new webpack.optimize.ChunkModuleIdRangePlugin({
 			name: "main1",
 			start: 100,
 			end: 102
 		}),
-		new webpack.ids.ChunkModuleIdRangePlugin({
+		new webpack.optimize.ChunkModuleIdRangePlugin({
 			name: "main2",
-			order: "postOrderIndex"
+			order: "index2"
 		})
 	],
 	stats: {

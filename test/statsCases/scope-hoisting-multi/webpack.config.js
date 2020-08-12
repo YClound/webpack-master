@@ -1,4 +1,3 @@
-/** @type {import("../../../").Configuration[]} */
 module.exports = [
 	{
 		mode: "production",
@@ -8,7 +7,7 @@ module.exports = [
 		},
 		target: "web",
 		output: {
-			filename: "a-[name].js"
+			filename: "[name].js"
 		},
 		optimization: {
 			concatenateModules: false,
@@ -36,7 +35,7 @@ module.exports = [
 		},
 		target: "web",
 		output: {
-			filename: "b-[name].js"
+			filename: "[name].js"
 		},
 		optimization: {
 			splitChunks: {
@@ -52,7 +51,6 @@ module.exports = [
 		},
 		stats: {
 			assets: false,
-			orphanModules: true,
 			optimizationBailout: true
 		}
 	}

@@ -13,6 +13,9 @@ const config = {
 	entry: {
 		main: "./"
 	},
+	output: {
+		filename: "[name].js"
+	},
 	optimization: {
 		splitChunks: {
 			minSize: 100,
@@ -28,20 +31,17 @@ const config = {
 	}
 };
 
-/** @type {import("../../../").Configuration[]} */
 module.exports = [
-	{
-		stats: { entrypoints: false, chunkGroups: true, ...stats },
-		output: {
-			filename: "a-[name].js"
+	Object.assign(
+		{
+			stats: Object.assign({ entrypoints: false, chunkGroups: true }, stats)
 		},
-		...config
-	},
-	{
-		stats: { entrypoints: true, chunkGroups: true, ...stats },
-		output: {
-			filename: "b-[name].js"
+		config
+	),
+	Object.assign(
+		{
+			stats: Object.assign({ entrypoints: true, chunkGroups: true }, stats)
 		},
-		...config
-	}
+		config
+	)
 ];

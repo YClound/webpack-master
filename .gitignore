@@ -1,9 +1,7 @@
 /node_modules
 /test/js
 /test/browsertest/js
-/test/fixtures/temp-*
-/test/temp
-/test/ChangesAndRemovals
+/test/fixtures/temp-cache-fixture*
 /benchmark/js
 /benchmark/fixtures
 /examples/**/dist
@@ -12,6 +10,5 @@
 *.log
 .idea
 .vscode
-.cache
 .eslintcache
 package-lock.json

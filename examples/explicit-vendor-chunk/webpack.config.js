@@ -8,11 +8,11 @@ module.exports = [
 		output: {
 			path: path.resolve(__dirname, "dist"),
 			filename: "vendor.js",
-			library: "vendor_[fullhash]"
+			library: "vendor_[hash]"
 		},
 		plugins: [
 			new webpack.DllPlugin({
-				name: "vendor_[fullhash]",
+				name: "vendor_[hash]",
 				path: path.resolve(__dirname, "dist/manifest.json")
 			})
 		]

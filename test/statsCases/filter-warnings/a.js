@@ -1,4 +1,4 @@
-module.exports = function someUsedFunction() {};
+module.export = function someUsedFunction() {};
 
 function someRemoteUnUsedFunction1() {}
 function someRemoteUnUsedFunction2() {}

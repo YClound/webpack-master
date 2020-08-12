@@ -43,16 +43,16 @@ _{{webpack.config.js}}_
 _{{dist/vendor.js}}_
 ```
 
-# dist/commons-utility2_js.js
+# dist/commons~pageA~pageB~pageC.js
 
-``` javascript
-_{{dist/commons-utility2_js.js}}_
+```javascript
+_{{dist/commons~pageA~pageB~pageC.js}}_
 ```
 
-# dist/commons-utility3_js.js
+# dist/commons~pageB~pageC.js
 
-``` javascript
-_{{dist/commons-utility3_js.js}}_
+```javascript
+_{{dist/commons~pageB~pageC.js}}_
 ```
 
 # dist/pageA.js

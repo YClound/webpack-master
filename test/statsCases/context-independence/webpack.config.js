@@ -12,37 +12,27 @@ const base = {
 				options: {}
 			}
 		]
-	},
-	stats: {
-		relatedAssets: true
 	}
 };
 
-const base2 = {
-	...base,
-	devtool: "eval-source-map"
-};
+const base2 = Object.assign({}, base, { devtool: "eval-source-map" });
 
-/** @type {import("../../../").Configuration[]} */
 module.exports = [
-	{
-		...base,
+	Object.assign({}, base, {
 		context: path.resolve(__dirname, "a"),
 		output: {
 			path: path.resolve(__dirname, "../../js/stats/context-independence/a"),
 			filename: "[name]-[chunkhash].js"
 		}
-	},
-	{
-		...base,
+	}),
+	Object.assign({}, base, {
 		context: path.resolve(__dirname, "b"),
 		output: {
 			path: path.resolve(__dirname, "../../js/stats/context-independence/b"),
 			filename: "[name]-[chunkhash].js"
 		}
-	},
-	{
-		...base2,
+	}),
+	Object.assign({}, base2, {
 		context: path.resolve(__dirname, "a"),
 		output: {
 			path: path.resolve(
@@ -51,9 +41,8 @@ module.exports = [
 			),
 			filename: "[name]-[chunkhash].js"
 		}
-	},
-	{
-		...base2,
+	}),
+	Object.assign({}, base2, {
 		context: path.resolve(__dirname, "b"),
 		output: {
 			path: path.resolve(
@@ -62,5 +51,5 @@ module.exports = [
 			),
 			filename: "[name]-[chunkhash].js"
 		}
-	}
+	})
 ];

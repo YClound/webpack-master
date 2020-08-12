@@ -1,11 +1,13 @@
 var path = require("path");
 
-/** @type {function(any, any): import("../../../../").Configuration} */
-module.exports = (env, { testPath }) => ({
+module.exports = {
 	entry: "./test",
-	recordsPath: path.resolve(testPath, "records.json"),
+	recordsPath: path.resolve(
+		__dirname,
+		"../../../js/config/records/issue-295/records.json"
+	),
 	target: "node",
 	node: {
 		__dirname: false
 	}
-});
+};

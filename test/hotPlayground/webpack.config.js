@@ -1,10 +1,9 @@
 var webpack = require("../../");
-/** @type {import("../../").Configuration} */
 module.exports = {
 	entry: ["../../hot/dev-server", "./index.js"],
 	output: {
 		filename: "bundle.js",
-		hotUpdateChunkFilename: "[id].[fullhash].bundle-update.js",
+		hotUpdateChunkFilename: "[id].[hash].bundle-update.js",
 		hashDigestLength: 4
 	},
 	plugins: [new webpack.HotModuleReplacementPlugin()],

@@ -11,6 +11,7 @@ module.exports = {
 	},
 	plugins: [
 		new webpack.DllReferencePlugin({
+			context: ".",
 			manifest: require("../0-vendor/dist/vendor-manifest.json") // eslint-disable-line
 		})
 	]

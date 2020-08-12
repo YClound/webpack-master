@@ -1,4 +1,3 @@
-/** @type {import("../../../../").Configuration} */
 module.exports = {
 	entry: {
 		bundle0: "./index",
@@ -8,11 +7,9 @@ module.exports = {
 		filename: "[name].js"
 	},
 	plugins: [
-		function () {
-			this.hooks.compilation.tap("TestPlugin", function (compilation) {
-				compilation.hooks.processAssets.tap("TestPlugin", function (assets) {
-					delete compilation.assets["b.js"];
-				});
+		function() {
+			this.hooks.emit.tap("TestPlugin", function(compilation) {
+				delete compilation.assets["b.js"];
 			});
 		}
 	]

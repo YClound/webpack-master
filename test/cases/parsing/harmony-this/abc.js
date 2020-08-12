@@ -1,11 +1,14 @@
 function returnThis() {
-	if (typeof this === "undefined") return expect("undefined");
-	return expect(this);
+	if(typeof this === "undefined") return "undefined";
+	return this;
 }
 
 var a = returnThis;
 var b = returnThis;
 
-export { a, b };
+export {
+	a,
+	b
+}
 
 export default returnThis;

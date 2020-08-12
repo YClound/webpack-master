@@ -5,7 +5,6 @@ const valueFile = path.resolve(
 	__dirname,
 	"../../../js/watch-src/plugins/define-plugin/value.txt"
 );
-/** @type {import("../../../../").Configuration} */
 module.exports = {
 	plugins: [
 		new webpack.DefinePlugin({

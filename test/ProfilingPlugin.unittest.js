@@ -1,15 +1,13 @@
 "use strict";
 
-const path = require("path");
 const ProfilingPlugin = require("../lib/debug/ProfilingPlugin");
 
 describe("Profiling Plugin", () => {
 	it("should persist the passed outpath", () => {
-		const outputPath = path.join(__dirname, "invest_in_doge_coin");
 		const plugin = new ProfilingPlugin({
-			outputPath: outputPath
+			outputPath: "invest_in_doge_coin"
 		});
-		expect(plugin.outputPath).toBe(outputPath);
+		expect(plugin.outputPath).toBe("invest_in_doge_coin");
 	});
 
 	it("should handle no options", () => {

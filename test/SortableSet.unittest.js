@@ -1,3 +1,4 @@
+/* globals describe, it */
 "use strict";
 
 const SortableSet = require("../lib/util/SortableSet");

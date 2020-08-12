@@ -1,7 +1,6 @@
 var path = require("path");
 var webpack = require("../../../../");
 
-/** @type {import("../../../../").Configuration} */
 module.exports = {
 	entry: ["./index"],
 	output: {
@@ -26,8 +25,7 @@ module.exports = {
 			path: path.resolve(
 				__dirname,
 				"../../../js/config/dll-plugin-side-effects/manifest0.json"
-			),
-			entryOnly: false
+			)
 		})
 	]
 };

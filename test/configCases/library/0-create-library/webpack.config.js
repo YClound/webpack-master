@@ -1,11 +1,8 @@
-const path = require("path");
-const webpack = require("../../../../");
-/** @type {function(any, any): import("../../../../").Configuration[]} */
-module.exports = (env, { testPath }) => [
+module.exports = [
 	{
 		output: {
 			filename: "commonjs.js",
-			libraryTarget: "commonjs"
+			libraryTarget: "commonjs-module"
 		},
 		resolve: {
 			alias: {
@@ -49,20 +46,14 @@ module.exports = (env, { testPath }) => [
 	},
 	{
 		output: {
-			filename: "var.js",
-			library: ["globalName", "x", "y"]
+			filename: "global.js",
+			library: "globalName"
 		},
 		resolve: {
 			alias: {
 				external: "./non-external"
 			}
-		},
-		plugins: [
-			new webpack.BannerPlugin({
-				raw: true,
-				banner: "module.exports = () => globalName;\n"
-			})
-		]
+		}
 	},
 	{
 		output: {
@@ -70,61 +61,5 @@ module.exports = (env, { testPath }) => [
 			libraryTarget: "commonjs2"
 		},
 		externals: ["external"]
-	},
-	{
-		output: {
-			filename: "index.js",
-			path: path.resolve(testPath, "commonjs2-split-chunks"),
-			libraryTarget: "commonjs2"
-		},
-		target: "node",
-		optimization: {
-			splitChunks: {
-				cacheGroups: {
-					test: {
-						enforce: true,
-						chunks: "all",
-						test: /a\.js$/,
-						filename: "part.js"
-					}
-				}
-			}
-		},
-		resolve: {
-			alias: {
-				external: "./non-external"
-			}
-		}
-	},
-	{
-		entry: {
-			entryA: {
-				import: "./index"
-			},
-			entryB: {
-				import: "./index",
-				library: {
-					type: "umd",
-					name: "umd"
-				}
-			},
-			entryC: {
-				import: "./index",
-				library: {
-					type: "amd"
-				}
-			}
-		},
-		output: {
-			library: {
-				type: "commonjs-module"
-			},
-			filename: "[name].js"
-		},
-		resolve: {
-			alias: {
-				external: "./non-external"
-			}
-		}
 	}
 ];

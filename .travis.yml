@@ -1,3 +1,4 @@
+sudo: false
 dist: trusty
 language: node_js
 
@@ -6,7 +7,6 @@ branches:
     - webpack-4
     - master
     - next
-    - dev-1
 
 cache:
   yarn: true
@@ -21,25 +21,25 @@ stages:
 matrix:
   include:
     - os: linux
-      node_js: "12"
+      node_js: "10"
       env: NO_WATCH_TESTS=1 JEST="--maxWorkers=2 --cacheDirectory .jest-cache" JOB_PART=basic
       stage: basic
     - os: linux
-      node_js: "12"
+      node_js: "10"
       env: NO_WATCH_TESTS=1 JEST="--maxWorkers=2 --cacheDirectory .jest-cache" JOB_PART=lintunit
       stage: advanced
     - os: linux
-      node_js: "12"
+      node_js: "10"
       env: NO_WATCH_TESTS=1 JEST="--maxWorkers=2 --cacheDirectory .jest-cache" JOB_PART=integration
       stage: advanced
     - os: linux
-      node_js: "12"
+      node_js: "10"
       env: NO_WATCH_TESTS=1 ALTERNATIVE_SORT=1 JEST="--maxWorkers=2 --cacheDirectory .jest-cache" JOB_PART=integration
       stage: advanced
     - os: linux
       node_js: "10"
       env:
-        - NODEJS_VERSION=v13.0.0-nightly201910156afed1dc85
+        - NODEJS_VERSION=v12.0.0-nightly20190206686043e76e
         - YARN_EXTRA_ARGS="--ignore-engines"
         - NO_WATCH_TESTS=1
         - JEST="--maxWorkers=2 --cacheDirectory .jest-cache"

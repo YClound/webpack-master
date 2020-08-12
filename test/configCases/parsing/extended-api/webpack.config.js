@@ -1,8 +1,9 @@
 "use strict";
+const webpack = require("../../../../");
 
-/** @type {import("../../../../").Configuration} */
 module.exports = {
 	entry: {
 		other: "./index"
-	}
+	},
+	plugins: [new webpack.ExtendedAPIPlugin()]
 };

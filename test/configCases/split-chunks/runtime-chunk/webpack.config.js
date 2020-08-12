@@ -1,6 +1,5 @@
 const path = require("path");
 
-/** @type {import("../../../../").Configuration} */
 module.exports = {
 	entry: {
 		a: "./a",
@@ -11,7 +10,6 @@ module.exports = {
 		filename: "[name].js"
 	},
 	optimization: {
-		chunkIds: "named",
 		runtimeChunk: "single",
 		splitChunks: {
 			cacheGroups: {

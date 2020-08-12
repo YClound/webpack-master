@@ -39,7 +39,7 @@ module.exports = {
 					}, files: ${files.join(", ")})`
 				);
 			}
-			verifyFilenameLength(filename.replace(/^\d+\./, "X."), bundleDetect.expectedNameLength);
+			verifyFilenameLength(filename, bundleDetect.expectedNameLength);
 		}
 
 		return "./" + filename;
